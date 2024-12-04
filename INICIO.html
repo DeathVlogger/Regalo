@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regalo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: moveStar 5s linear infinite, glowStar 1.5s linear infinite;
+        }
+
+        @keyframes moveStar {
+            from {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glowStar {
+            0%, 100% {
+                box-shadow: 0 0 10px white, 0 0 20px blue, 0 0 30px red, 0 0 40px green;
+            }
+            50% {
+                box-shadow: 0 0 20px white, 0 0 30px blue, 0 0 40px red, 0 0 50px green;
+            }
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+            font-weight: 700;
+            z-index: 1;
+            text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 25px rgb(255, 255, 255), 0 0 50px rgb(255, 255, 255), 0 0 100px rgb(255, 255, 255);
+        }
+
+        button {
+            --glow-color: rgb(217, 176, 255);
+            --glow-spread-color: rgba(191, 123, 255, 0.781);
+            --enhanced-glow-color: rgb(231, 206, 255);
+            --btn-color: rgb(100, 61, 136);
+            border: .25em solid var(--glow-color);
+            padding: 1em 3em;
+            color: var(--glow-color);
+            font-size: 15px;
+            font-weight: bold;
+            background-color: var(--btn-color);
+            border-radius: 1em;
+            outline: none;
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                        0 0 4em 1em var(--glow-spread-color),
+                        inset 0 0 .75em .25em var(--glow-color);
+            text-shadow: 0 0 .5em var(--glow-color);
+            position: relative;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        button::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
+
+        button:hover {
+            color: var(--btn-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                        0 0 4em 2em var(--glow-spread-color),
+                        inset 0 0 .75em .25em var(--glow-color);
+        }
+
+        button:active {
+            box-shadow: 0 0 0.6em .25em var(--glow-color),
+                        0 0 2.5em 2em var(--glow-spread-color),
+                        inset 0 0 .5em .25em var(--glow-color);
+        }
+
+        .fade-out {
+            animation: fadeOut 5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <h1 id="title">Da click en el botón para ver tu regalo</h1>
+    <button id="fadeButton">Abrir</button>
+
+    <script>
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+
+            const moveDelay = Math.random() * 5;
+            star.style.animationDelay = `${moveDelay}s`;
+
+            document.getElementById('background').appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, (5 + moveDelay) * 1000);
+        }
+
+        setInterval(createStar, 50);
+
+        // Redirigir a REGALO.html
+        document.getElementById('fadeButton').addEventListener('click', () => {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = "REGALO.html"; // Redirige al archivo REGALO.html
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
